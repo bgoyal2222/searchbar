@@ -28,10 +28,17 @@
 .repoCard {
   background:#FFF;
   padding: 10px;
+  list-style-type: none;
 }
 
-.repoCard:hover {
+ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+.repoCard:hover, .repoCard:focus, .repoCardSelected {
   background:#FFFEDD;
+  padding: 10px;
 }
 
 .fullWidth {

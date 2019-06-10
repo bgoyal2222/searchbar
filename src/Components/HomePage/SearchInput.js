@@ -10,26 +10,25 @@ class SearchInput extends Component {
         this.myRef = React.createRef();
         this.state = {
             searchValue: '',
+            activeSuggestion: 0,
+            filteredSuggestions: [],
         };
     }
-      componentDidMount() {
-        this.moveFocus();
-      }
-      moveFocus() {
-        const node = this.myRef.current
-        if( node != null ) {
-            node.addEventListener('keydown', function(e) {
-              const active = document.activeElement;
-              if(e.keyCode === 40 && active.nextSibling) {
-                  console.log('keydown')
-                active.nextSibling.focus();
-              }
-              if(e.keyCode === 38 && active.previousSibling) {
-                active.previousSibling.focus();
-              }
-            });
+    componentDidMount() {
+    }
+    
+    handleKeyDownPressed = event => {
+        if (event.keyCode === 40) {
+            if (this.state.activeSuggestion <= this.props.repos.length) {
+                this.setState({activeSuggestion : this.state.activeSuggestion + 1})
+            }
         }
-      }
+        if (event.keyCode === 38) {
+            if (this.state.activeSuggestion > 0) {
+                    this.setState({activeSuggestion : this.state.activeSuggestion - 1})
+                }
+        }
+    }
    
     handleChange(evnt) {
         this.props.search(evnt.target.value);
@@ -50,9 +49,24 @@ class SearchInput extends Component {
         } </div>;
     }
     render() {
-        console.log(this.props)
         const { repos } = this.props;
-        const { searchValue} = this.state;
+        const { searchValue, activeSuggestion } = this.state;
+        let suggestionList;
+        if (repos.length) {
+            suggestionList = (
+                <ul>
+                    {repos.map((item, index) => (<li className={(index === activeSuggestion || (activeSuggestion >= repos.length && index == (repos.length - 1))) ? "repoCardSelected" : "repoCard"} tabIndex={index}>
+                        <h6>{this.getHighlightedText(item.id, searchValue)}</h6>
+                        {this.getHighlightedText(item.name, searchValue)}
+                        <font size="2">{this.getHighlightedText(item.address, searchValue)}</font>
+                    </li>) )}
+                </ul>
+            )
+        } else {
+            <div className="not-found">No Results found</div>
+        }
+
+
         return (
             <div className="myContainer">
                 <div className="inputContainer">
@@ -60,19 +74,15 @@ class SearchInput extends Component {
                         <img src="https://cdn1.iconfinder.com/data/icons/hawcons/32/698956-icon-111-search-128.png" width="20" height="20" />
                     </div>
                     <div className="textInputContainer">
-                        <input type="text" className="fullWidth" name="search" id="search" value={this.state.searchValue} onChange={this.handleChange} placeholder="Search users by ID, address...." />
+                        <input type="text" className="fullWidth" name="search" id="search" value={this.state.searchValue} onChange={this.handleChange} placeholder="Search users by ID, address...." onKeyDown={this.handleKeyDownPressed} />
                     </div>
                      <div className="imageContainer">
                      { this.state.searchValue!= '' && <img src="http://simpleicon.com/wp-content/uploads/cross.png" width="20" height="20" onClick={this.clearInputArea}/> }
                     </div> 
                 </div>
                 {searchValue !==''?
-                <div className="scrollableDivision" ref={this.myRef}>
-                    {repos.length > 0? repos.map((item, index) => <div className="repoCard" tabIndex={index}> 
-                        <h6>{this.getHighlightedText(item.id,searchValue)}</h6>
-                        {this.getHighlightedText(item.name,searchValue)}
-                        <font size="2">{this.getHighlightedText(item.address,searchValue)}</font>
-                    </div>) : <div className="not-found">No Results found</div>}
+                    <div className="scrollableDivision" ref={this.myRef}>
+                        { suggestionList }
                 </div>:null}
             </div>
         );
