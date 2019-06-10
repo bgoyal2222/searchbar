@@ -40,16 +40,19 @@ class SearchInput extends Component {
 
     clearInputArea = () => this.setState({ searchValue: '' });
 
+    getHighlightedText = (text, higlight) => {
+        // Split on higlight term and include term into parts, ignore case
+        let parts = text.split(new RegExp(`(${higlight})`, 'gi'));
+        return <div> { parts.map((part, i) => 
+            <span key={i} style={part.toLowerCase() === higlight.toLowerCase() ? { fontWeight: 'bold',color:'#1d12b8' } : {} }>
+                { part }
+            </span>)
+        } </div>;
+    }
     render() {
         console.log(this.props)
-        let { repos, data } = this.props;
-        let languages = [];
-        data = []
-        data.map((item) => {
-            if (item.language)
-                languages.push(item.language);
-            return item;
-        })
+        const { repos } = this.props;
+        const { searchValue} = this.state;
         return (
             <div className="myContainer">
                 <div className="inputContainer">
@@ -63,12 +66,12 @@ class SearchInput extends Component {
                      { this.state.searchValue!= '' && <img src="http://simpleicon.com/wp-content/uploads/cross.png" width="20" height="20" onClick={this.clearInputArea}/> }
                     </div> 
                 </div>
-                {this.state.searchValue !==''?
+                {searchValue !==''?
                 <div className="scrollableDivision" ref={this.myRef}>
                     {repos.length > 0? repos.map((item, index) => <div className="repoCard" tabIndex={index}> 
-                        <h6>{item.id}</h6>
-                        <font className="username">{item.name.substring(0, this.state.searchValue.length)}</font>{item.name.substring(this.state.searchValue.length, item.name.length)}<br />
-                        <font size="2">{item.address}</font>
+                        <h6>{this.getHighlightedText(item.id,searchValue)}</h6>
+                        {this.getHighlightedText(item.name,searchValue)}
+                        <font size="2">{this.getHighlightedText(item.address,searchValue)}</font>
                     </div>) : <div className="not-found">No Results found</div>}
                 </div>:null}
             </div>

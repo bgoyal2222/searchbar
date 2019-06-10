@@ -74,7 +74,7 @@ const repos = (state = { data, result: [] }, action) => {
         case USER_SEARCH:
             if (action.value !== '') {
                 data = data.filter((item) => {
-                    return item.name.toLowerCase().includes(action.value.toLowerCase()) || item.id.toLowerCase().includes(action.value.toLowerCase()) || item.address.toLowerCase().includes(action.value.toLowerCase()) || item.items.toString().toLowerCase().includes(action.value.toLowerCase()) ;
+                    return item.name.toLowerCase().includes(action.value.toLowerCase()) || item.id.toLowerCase().includes(action.value.toLowerCase()) || item.address.toLowerCase().includes(action.value.toLowerCase());
                 });
             }
             return { ...state, result: data };
