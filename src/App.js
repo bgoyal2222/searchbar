@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import store from './store'
 import SearchInput from './Components/HomePage/SearchInput';
 import './App.css';
-import { Container, Row, Col } from 'reactstrap';
 
 class App extends Component {
   render() {
