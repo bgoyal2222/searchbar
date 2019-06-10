@@ -1,0 +1,77 @@
+.myContainer {
+  width: 400px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 0px;
+  margin: 0px 20px;
+  /* border-radius: 30px; */
+  background: #F2F3F4;
+  /* text-align: center */
+}
+
+.App {
+  padding: 0px;
+  margin: 0px;
+}
+.username {
+  font-style: italic;
+  color: #1d12b8;
+}
+.scrollableDivision {
+  max-height: 250px;
+  background:#FFF;
+  overflow-y: scroll;
+  /* position: relative; */
+  z-index: 9999;
+}
+
+.repoCard {
+  background:#FFF;
+  padding: 10px;
+}
+
+.repoCard:hover {
+  background:#FFFEDD;
+}
+
+.fullWidth {
+  width: 344px;
+  padding: 5px;
+  font-weight: 400;
+  border: 0px solid transparent;
+  margin: 0px;
+  background: #F2F3F4;
+
+}
+
+.fullWidth::placeholder, .fullWidth:-ms-input-placeholder {
+  color: #CCD0D3;
+}
+
+.fullWidth:focus {
+  outline-width: 0;
+}
+
+.not-found {
+  /* height: 450px; */
+  text-align: center;
+  padding: 50px 0px;
+  color: #7F8389;
+}
+
+
+.inputContainer {
+  border-bottom: 1px solid #eaeaea;
+  display: inline-flex;
+  /* background: #F2F3F4; */
+}
+
+.imageContainer {
+  float: left;
+  padding: 4px;
+  /* background: #F2F3F4; */
+}
+
+.textInputContainer {
+  /* background: #F2F3F4; */
+}
